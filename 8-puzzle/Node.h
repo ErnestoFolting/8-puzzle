@@ -9,14 +9,27 @@ struct Node {
 	int action; // -1 - none 0 - left 1 - top 2- right 3 - bottom
 	int pathCost;
 	int Depth;
-	vector<int> acceptableActions = { 0,0,0,0 };
+	vector<bool> acceptableActions = { 0,0,0,0 };
+	
 
 	Node(vector<vector<int>>matr) { 
 		state = matr;
 		action = -1;
 		pathCost = 0;
 		Depth = 0;
-		acceptableActions ;
+		int m = 0, n = 0;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (matr[i][j] == 0) {
+					m = i;
+					n = j;
+				}
+			}
+		}
+		if (n >= 1)acceptableActions[0] = 1;
+		if (m >= 1)acceptableActions[1] = 1;
+		if (n <= 1)acceptableActions[2] = 1;
+		if (m <= 1)acceptableActions[3] = 1;
 	};
 	bool checkComplete() {  // check if the game is completed
 		vector<vector<int>> resultVec{ {1,2,3},{4,5,6},{7,8,0} };
