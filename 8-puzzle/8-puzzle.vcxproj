@@ -140,8 +140,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="8-puzzle.cpp" />
+    <ClCompile Include="fileReader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="fileReader.h" />
     <ClInclude Include="Node.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -9,14 +9,16 @@ struct Node {
 	int action; // -1 - none 0 - left 1 - top 2- right 3 - bottom
 	int pathCost;
 	int Depth;
+	vector<int> acceptableActions = { 0,0,0,0 };
 
 	Node(vector<vector<int>>matr) { 
 		state = matr;
 		action = -1;
 		pathCost = 0;
 		Depth = 0;
+		acceptableActions ;
 	};
-	bool Check() {  // check if the game is completed
+	bool checkComplete() {  // check if the game is completed
 		vector<vector<int>> resultVec{ {1,2,3},{4,5,6},{7,8,0} };
 		bool flag = true;
 		for (int i = 0; i < 3; i++) {
@@ -27,7 +29,7 @@ struct Node {
 		}
 		return flag;
 	}
-	void left() {
+	Node left() {
 		int k = 0;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -39,8 +41,14 @@ struct Node {
 				}
 			}
 		}
+		Node tempNode(state);
+		tempNode.action = 0;
+		tempNode.parentNode = this;
+		tempNode.Depth = Depth++;
+		tempNode.pathCost = pathCost++;
+		return  tempNode;
 	}
-	void right() {
+	Node right() {
 		int k = 0;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -53,8 +61,14 @@ struct Node {
 				}
 			}
 		}
+		Node tempNode(state);
+		tempNode.action = 2;
+		tempNode.parentNode = this;
+		tempNode.Depth = Depth++;
+		tempNode.pathCost = pathCost++;
+		return  tempNode;
 	}
-	void top() {
+	Node top() {
 		int k = 0;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -66,8 +80,14 @@ struct Node {
 				}
 			}
 		}
+		Node tempNode(state);
+		tempNode.action = 1;
+		tempNode.parentNode = this;
+		tempNode.Depth = Depth++;
+		tempNode.pathCost = pathCost++;
+		return  tempNode;
 	}
-	void bottom() {
+	Node bottom() {
 		int k = 0;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -79,5 +99,11 @@ struct Node {
 				}
 			}
 		}
+		Node tempNode(state);
+		tempNode.action = 3;
+		tempNode.parentNode = this;
+		tempNode.Depth = Depth++;
+		tempNode.pathCost = pathCost++;
+		return  tempNode;
 	}
 };

@@ -1,11 +1,11 @@
 ﻿#include <iostream>
 #include <iomanip>
-#include <fstream>
 #include <stack>
 #include "Node.h"
+#include "fileReader.h"
 using namespace std;
 
-void expand(Node tempNode) {
+Node expand(Node tempNode) {
     int m = 0, n = 0;
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
@@ -15,41 +15,28 @@ void expand(Node tempNode) {
             }
         }
     }
-    stack<Node> nodesToOpen;
-
+    if (n >= 1)return tempNode.left();
+    if (m >= 1)return tempNode.top();
+    if (n <= 1)return tempNode.right();
+    if (m <= 1)return tempNode.bottom();
 }
 
-int main()
-{
-    vector<vector<int>> testMatr;
-    ifstream inFile("test.txt");
-    int a = 0, i = 0;
-    while (!inFile.eof()) {
-        vector<int> tempVec;
-        while (i != 3) {
-            inFile >> a;
-            tempVec.push_back(a);
-            i++;
-        }     
-        testMatr.push_back(tempVec);
-        i = 0;
-    }
-    for(int i = 0;i<3;i++){
-        for (int j = 0; j < 3; j++) {
-            cout << testMatr[i][j] << " ";
-        }
-        cout << endl;
-    }
-    
-    Node test(testMatr);
-    cout << test.action;
-    cout << "check" << test.Check();
-    test.bottom();
+void print(vector<vector<int>> vec) {
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            cout << test.state[i][j] << " ";
+            cout << vec[i][j] << " ";
         }
         cout << endl;
     }
+}
+void dfs(Node startNode) {
+    
+}
+int main()
+{
+    vector<vector<int>> testMatr = readFile();
+    print(testMatr);
+    Node test(testMatr);
+    print(expand(test).state);
 }
 

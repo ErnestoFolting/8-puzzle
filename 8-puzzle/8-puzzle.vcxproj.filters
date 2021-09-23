@@ -18,9 +18,15 @@
     <ClCompile Include="8-puzzle.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="fileReader.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Node.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="fileReader.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
   </ItemGroup>
