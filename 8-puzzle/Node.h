@@ -34,6 +34,21 @@ struct Node {
 		if (n <= 1)acceptableActions[2] = 1;
 		if (m <= 1)acceptableActions[3] = 1;
 	};
+	bool isCorrect()
+	{
+		vector<int> tempVec;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				tempVec.push_back(state[i][j]);
+			}
+		}
+		int inv_count = 0;
+		for (int i = 0; i < 9 - 1; i++)
+			for (int j = i + 1; j < 9; j++)
+				if (tempVec[j] && tempVec[i] && tempVec[i] > tempVec[j])
+					inv_count++;
+		return !(inv_count%2);
+	}
 	bool checkComplete() {  // check if the game is completed
 		vector<vector<int>> resultVec{ {1,2,3},{4,5,6},{7,8,0} };
 		bool flag = true;

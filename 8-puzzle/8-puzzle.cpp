@@ -19,16 +19,16 @@ bool dfs(Node startNode, int limit) {
                 if (startNode.acceptableActions[i] != 0) {
                     startNode.acceptableActions[i] = 0;
                     if ((i == 0 && startNode.parentNode == nullptr) || (i == 0 && startNode.parentNode->action != 0)) {
-                        dfs(startNode.left(), limit);
+                        if(dfs(startNode.left(), limit))return true;
                     }
                     else if ((i == 1 && startNode.parentNode == nullptr) || (i == 1 && startNode.parentNode->action != 1)) {
-                        dfs(startNode.top(), limit);
+                        if(dfs(startNode.top(), limit))return true;
                     }
                     else if ((i == 2 && startNode.parentNode == nullptr) || (i == 2 && startNode.parentNode->action != 2)) {
-                        dfs(startNode.right(), limit);
+                        if(dfs(startNode.right(), limit))return true;
                     }
                     else if ((i == 3 && startNode.parentNode == nullptr) || (i == 3 && startNode.parentNode->action != 3)) {
-                        dfs(startNode.bottom(), limit);
+                        if(dfs(startNode.bottom(), limit))return true;
                     }
                 }
             }
@@ -41,9 +41,15 @@ int main()
     vector<vector<int>> testMatr = readFile();
     print(testMatr);
     Node test(testMatr);
-    for (int limit = 1; limit < 100000; limit++) {
-        cout << "CHECK LIMIT -----------------------------" << limit << endl;
-        if(dfs(test,limit ))break;
+    if (test.isCorrect()) {
+        for (int limit = 1; limit < 100000; limit++) {
+            cout << "CHECK LIMIT -----------------------------" << limit << endl;
+            if (dfs(test, limit))break;
+        }
     }
+    else {
+        cout << "The puzzle can not be solved( " << endl;
+    }
+    
 }
 
