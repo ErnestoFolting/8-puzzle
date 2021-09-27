@@ -16,3 +16,11 @@ vector<vector<int>> readFile()
     }
     return testMatr;
 }
+void print(vector<vector<int>> vec) {
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            cout << vec[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
