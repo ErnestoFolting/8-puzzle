@@ -2,6 +2,7 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
+#include <cmath>
 #include "fileReader.h"
 using namespace std;
 
@@ -11,6 +12,7 @@ struct Node {
 	int action; // -1 - none 0 - left 1 - top 2- right 3 - bottom
 	int pathCost;
 	int Depth;
+	int h2;
 	vector<bool> acceptableActions = { 0,0,0,0 };
 	
 
@@ -33,6 +35,30 @@ struct Node {
 		if (m >= 1)acceptableActions[1] = 1;
 		if (n <= 1)acceptableActions[2] = 1;
 		if (m <= 1)acceptableActions[3] = 1;
+		h2 = 0;
+		for (int i = 0; i < 3 ; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (state[i][j] == 1 || state[i][j] == 4 || state[i][j] == 7) {
+					h2 += j;
+				}
+				else if (state[i][j] == 2 || state[i][j] == 5 || state[i][j] == 8) {
+					h2 += abs(j - 1);
+				}
+				else if (state[i][j] == 3 || state[i][j] == 6 ) {
+					h2 += abs(j - 2);
+				}
+				if (state[i][j] == 1 || state[i][j] == 2 || state[i][j] == 3) {
+					h2 += i;
+				}
+				else if (state[i][j] == 4 || state[i][j] == 5 || state[i][j] == 6) {
+					h2 += abs(i - 1);
+				}
+				else if (state[i][j] == 7 || state[i][j] == 8 ) {
+					h2 += abs(i - 2);
+				}
+			}
+		}
+			
 	};
 	bool isCorrect()
 	{

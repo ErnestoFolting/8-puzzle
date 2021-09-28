@@ -14,7 +14,7 @@ bool dfs(Node startNode, int limit) {
         return true;
     }
     else {
-        while (startNode.Depth <= limit && count(startNode.acceptableActions.begin(), startNode.acceptableActions.end(), 1)) {
+        while (startNode.Depth < limit && count(startNode.acceptableActions.begin(), startNode.acceptableActions.end(), 1)) {
             for (int i = 0; i < 4; i++) {
                 if (startNode.acceptableActions[i] != 0) {
                     startNode.acceptableActions[i] = 0;
