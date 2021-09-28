@@ -6,9 +6,13 @@
 #include "Node.h"
 #include "fileReader.h"
 using namespace std;
-
-bool funcSort(const Node* a, const Node* b) {
-    return(a->h2 < b->h2);
+Node getNode(vector<Node> vec) {
+    Node tempNode = vec[vec.size() - 1];
+    tempNode.parentNode = vec[vec.size() - 1].parentNode;
+    return tempNode;
+}
+bool funcSort(const Node& a, const Node& b) {
+    return(a.h2 > b.h2);
 }
 bool dfs(Node startNode, int limit) {
     if (startNode.checkComplete()) {
@@ -40,12 +44,12 @@ bool dfs(Node startNode, int limit) {
     }
 }
 void AStar(Node startNode) {
-    list<Node*> q;
-    q.push_back(&startNode);
+    vector<Node> q;
+    q.push_back(startNode);
     while (!q.empty()) {
-        q.sort(funcSort);
-        Node tempNode = *(q.front());
-        q.pop_front();
+        sort(q.begin(),q.end(),funcSort);
+        Node tempNode = getNode(q);
+        q.pop_back();
         if (tempNode.checkComplete()) {
             cout << "The task is completed, the depth is:" << tempNode.Depth << endl;
             cout << "Check" << tempNode.Depth << endl;
@@ -53,19 +57,19 @@ void AStar(Node startNode) {
             break;
         }
         for (int i = 0; i < 4; i++) {
-            if (tempNode.acceptableActions[i] != 0) {
+            if (tempNode.acceptableActions[i] != 0) {                                                                                                                                                                                                                                                              
                 tempNode.acceptableActions[i] == 0;
                 if (i == 0) {
-                    q.push_back(&tempNode.left());
+                    q.push_back(tempNode.left());
                 }
                 else if (i == 1) {
-                    q.push_back(&tempNode.top());
+                    q.push_back(tempNode.top());
                 }
                 else if (i == 2) {
-                    q.push_back(&tempNode.right());
+                    q.push_back(tempNode.right());
                 }
                 else if (i == 3) {
-                    q.push_back(&tempNode.bottom());
+                    q.push_back(tempNode.bottom());
                 }
             }
         }
