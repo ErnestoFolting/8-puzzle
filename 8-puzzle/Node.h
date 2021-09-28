@@ -58,7 +58,6 @@ struct Node {
 				}
 			}
 		}
-			
 	};
 	bool isCorrect()
 	{
@@ -112,6 +111,7 @@ struct Node {
 		tempNode.parentNode = this;
 		tempNode.Depth = (this->Depth + 1 );
 		tempNode.pathCost = (this->pathCost + 1);
+		tempNode.h2 += tempNode.Depth;
 		return  tempNode;
 	}
 	Node right() {
@@ -132,6 +132,7 @@ struct Node {
 		tempNode.parentNode = this;
 		tempNode.Depth = (this->Depth + 1);
 		tempNode.pathCost = (this->pathCost + 1);
+		tempNode.h2 += tempNode.Depth;
 		return  tempNode;
 	}
 	Node top() {
@@ -152,6 +153,7 @@ struct Node {
 		tempNode.parentNode = this;
 		tempNode.Depth = (this->Depth + 1);
 		tempNode.pathCost = (this->pathCost + 1);
+		tempNode.h2 += tempNode.Depth;
 		return  tempNode;
 	}
 	Node bottom() {
@@ -172,6 +174,7 @@ struct Node {
 		tempNode.parentNode = this;
 		tempNode.Depth = (this->Depth + 1);
 		tempNode.pathCost = (this->pathCost + 1);
+		tempNode.h2 += tempNode.Depth;
 		return  tempNode;
 	}
 };

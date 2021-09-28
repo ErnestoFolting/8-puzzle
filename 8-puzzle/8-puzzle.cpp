@@ -1,12 +1,15 @@
 ﻿#include <iostream>
 #include <iomanip>
 #include <stack>
+#include <list>
 #include <algorithm>
 #include "Node.h"
 #include "fileReader.h"
 using namespace std;
 
-
+bool funcSort(const Node* a, const Node* b) {
+    return(a->h2 < b->h2);
+}
 bool dfs(Node startNode, int limit) {
     if (startNode.checkComplete()) {
         cout << "The task is completed, the depth is:" << startNode.Depth << endl;
@@ -36,20 +39,50 @@ bool dfs(Node startNode, int limit) {
         return false;
     }
 }
+void AStar(Node startNode) {
+    list<Node*> q;
+    q.push_back(&startNode);
+    while (!q.empty()) {
+        q.sort(funcSort);
+        Node tempNode = *(q.front());
+        q.pop_front();
+        if (tempNode.checkComplete()) {
+            cout << "The task is completed, the depth is:" << tempNode.Depth << endl;
+            cout << "Check" << tempNode.Depth << endl;
+            tempNode.makeSolution();
+            break;
+        }
+        for (int i = 0; i < 4; i++) {
+            if (tempNode.acceptableActions[i] != 0) {
+                tempNode.acceptableActions[i] == 0;
+                if (i == 0) {
+                    q.push_back(&tempNode.left());
+                }
+                else if (i == 1) {
+                    q.push_back(&tempNode.top());
+                }
+                else if (i == 2) {
+                    q.push_back(&tempNode.right());
+                }
+                else if (i == 3) {
+                    q.push_back(&tempNode.bottom());
+                }
+            }
+        }
+    }
+}
 int main()
 {
     vector<vector<int>> testMatr = readFile();
     print(testMatr);
     Node test(testMatr);
+    list<Node> q;
+    
     if (test.isCorrect()) {
-        for (int limit = 1; limit < 100000; limit++) {
-            cout << "CHECK LIMIT -----------------------------" << limit << endl;
-            if (dfs(test, limit))break;
-        }
+        AStar(test);
     }
     else {
         cout << "The puzzle can not be solved( " << endl;
     }
-    
 }
 
