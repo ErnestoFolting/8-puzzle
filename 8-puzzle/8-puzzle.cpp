@@ -6,17 +6,14 @@
 #include "Node.h"
 #include "fileReader.h"
 using namespace std;
-Node getNode(vector<Node> vec) {
-    Node tempNode = vec[vec.size() - 1];
-    tempNode.parentNode = vec[vec.size() - 1].parentNode;
-    return tempNode;
-}
+int Node::AllExpandedNodes = 0;
+int Node::ExpandedNodes = 0;
+
 bool funcSort(const Node& a, const Node& b) {
     return(a.h2 > b.h2);
 }
-bool dfs(Node startNode, int limit) {
+bool IDS(Node startNode, int limit) {
     if (startNode.checkComplete()) {
-        cout << "The task is completed, the depth is:" << startNode.Depth << endl;
         startNode.makeSolution();
         return true;
     }
@@ -26,16 +23,16 @@ bool dfs(Node startNode, int limit) {
                 if (startNode.acceptableActions[i] != 0) {
                     startNode.acceptableActions[i] = 0;
                     if ((i == 0 && startNode.parentNode == nullptr) || (i == 0 && startNode.parentNode->action != 0)) {
-                        if(dfs(startNode.left(), limit))return true;
+                        if(IDS(startNode.left(), limit))return true;
                     }
                     else if ((i == 1 && startNode.parentNode == nullptr) || (i == 1 && startNode.parentNode->action != 1)) {
-                        if(dfs(startNode.top(), limit))return true;
+                        if(IDS(startNode.top(), limit))return true;
                     }
                     else if ((i == 2 && startNode.parentNode == nullptr) || (i == 2 && startNode.parentNode->action != 2)) {
-                        if(dfs(startNode.right(), limit))return true;
+                        if(IDS(startNode.right(), limit))return true;
                     }
                     else if ((i == 3 && startNode.parentNode == nullptr) || (i == 3 && startNode.parentNode->action != 3)) {
-                        if(dfs(startNode.bottom(), limit))return true;
+                        if(IDS(startNode.bottom(), limit))return true;
                     }
                 }
             }
@@ -48,12 +45,10 @@ void AStar(Node startNode) {
     q.push_back(startNode);
     while (!q.empty()) {
         sort(q.begin(),q.end(),funcSort);
-        Node tempNode = getNode(q);
+        Node tempNode = q[q.size() - 1];;
         q.pop_back();
         if (tempNode.checkComplete()) {
-            cout << "The task is completed, the depth is:" << tempNode.Depth << endl;
-            cout << "Check" << tempNode.Depth << endl;
-            tempNode.makeSolution();
+            tempNode.makeSolutionAStar();
             break;
         }
         for (int i = 0; i < 4; i++) {
@@ -73,6 +68,7 @@ void AStar(Node startNode) {
                 }
             }
         }
+        Node::ExpandedNodes++;
     }
 }
 int main()
@@ -80,10 +76,18 @@ int main()
     vector<vector<int>> testMatr = readFile();
     print(testMatr);
     Node test(testMatr);
-    list<Node> q;
-    
     if (test.isCorrect()) {
-        AStar(test);
+        cout << "What method do you want to use?   1 - IDS   2 - A*" << endl;
+        int n;
+        cin >> n;
+        if (n == 1) {
+            for (int i = 1; i < 100000; i++) {
+                if (IDS(test, i))break;
+            }
+        }
+        else {
+            AStar(test);
+        }
     }
     else {
         cout << "The puzzle can not be solved( " << endl;

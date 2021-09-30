@@ -8,6 +8,8 @@ using namespace std;
 
 struct Node {
 	vector<vector<int>> state;
+	static int AllExpandedNodes;
+	static int ExpandedNodes;
 	Node *parentNode;
 	int action; // -1 - none 0 - left 1 - top 2- right 3 - bottom
 	int pathCost;
@@ -15,7 +17,6 @@ struct Node {
 	int h2;
 	vector<bool> acceptableActions = { 0,0,0,0 };
 	
-
 	Node(vector<vector<int>>matr) { 
 		state = matr;
 		action = -1;
@@ -58,7 +59,12 @@ struct Node {
 				}
 			}
 		}
+		AllExpandedNodes++;
+		ExpandedNodes++;
 	};
+	~Node() {
+		--ExpandedNodes;
+	}
 	bool isCorrect()
 	{
 		vector<int> tempVec;
@@ -85,6 +91,9 @@ struct Node {
 		return flag;
 	}
 	void makeSolution() {
+		cout << "The task is completed, the depth is:" << Depth << endl;
+		cout << "The number of expanded nodes in memory: " << ExpandedNodes  << endl;
+		cout << "The number of all expanded nodes: " << AllExpandedNodes << endl;
 		Node tempNode = *this;
 		while (tempNode.parentNode != nullptr) {
 			print(tempNode.state);
@@ -92,6 +101,14 @@ struct Node {
 			tempNode = *tempNode.parentNode;
 		}
 		print(tempNode.state);
+	}
+	void makeSolutionAStar() {
+		cout << "The task is completed" << endl << endl;
+		print(state);
+		cout << endl;
+		cout << "The depth is: " << Depth << endl;
+		cout << "The number of expanded nodes in memory: " << ExpandedNodes  << endl;
+		cout << "The number of all expanded nodes: " << AllExpandedNodes << endl;
 	}
 	Node left() {
 		int k = 0;
@@ -112,6 +129,7 @@ struct Node {
 		tempNode.Depth = (this->Depth + 1 );
 		tempNode.pathCost = (this->pathCost + 1);
 		tempNode.h2 += tempNode.Depth;
+		ExpandedNodes+=2;
 		return  tempNode;
 	}
 	Node right() {
@@ -133,6 +151,7 @@ struct Node {
 		tempNode.Depth = (this->Depth + 1);
 		tempNode.pathCost = (this->pathCost + 1);
 		tempNode.h2 += tempNode.Depth;
+		ExpandedNodes += 2;
 		return  tempNode;
 	}
 	Node top() {
@@ -154,6 +173,7 @@ struct Node {
 		tempNode.Depth = (this->Depth + 1);
 		tempNode.pathCost = (this->pathCost + 1);
 		tempNode.h2 += tempNode.Depth;
+		ExpandedNodes += 2;
 		return  tempNode;
 	}
 	Node bottom() {
@@ -175,6 +195,7 @@ struct Node {
 		tempNode.Depth = (this->Depth + 1);
 		tempNode.pathCost = (this->pathCost + 1);
 		tempNode.h2 += tempNode.Depth;
+		ExpandedNodes += 2;
 		return  tempNode;
 	}
 };
