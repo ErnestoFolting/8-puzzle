@@ -8,13 +8,17 @@
 using namespace std;
 int Node::AllExpandedNodes = 0;
 int Node::ExpandedNodes = 0;
+int numberOfIterations = 0;
+int nodesInMemory = 0;
 
 bool funcSort(const Node& a, const Node& b) {
     return(a.h2 > b.h2);
 }
 bool IDS(Node startNode, int limit) {
+    numberOfIterations++;
+    nodesInMemory++;
     if (startNode.checkComplete()) {
-        startNode.makeSolution();
+        startNode.makeSolution(numberOfIterations, nodesInMemory);
         return true;
     }
     else {
@@ -22,16 +26,16 @@ bool IDS(Node startNode, int limit) {
             for (int i = 0; i < 4; i++) {
                 if (startNode.acceptableActions[i] != 0) {
                     startNode.acceptableActions[i] = 0;
-                    if ((i == 0 && startNode.parentNode == nullptr) || (i == 0 && startNode.parentNode->action != 0)) {
+                    if ((i == 0 )) {
                         if(IDS(startNode.left(), limit))return true;
                     }
-                    else if ((i == 1 && startNode.parentNode == nullptr) || (i == 1 && startNode.parentNode->action != 1)) {
+                    else if ((i == 1 )) {
                         if(IDS(startNode.top(), limit))return true;
                     }
-                    else if ((i == 2 && startNode.parentNode == nullptr) || (i == 2 && startNode.parentNode->action != 2)) {
+                    else if ((i == 2)) {
                         if(IDS(startNode.right(), limit))return true;
                     }
-                    else if ((i == 3 && startNode.parentNode == nullptr) || (i == 3 && startNode.parentNode->action != 3)) {
+                    else if ((i == 3 )) {
                         if(IDS(startNode.bottom(), limit))return true;
                     }
                 }
@@ -44,11 +48,13 @@ void AStar(Node startNode) {
     vector<Node> q;
     q.push_back(startNode);
     while (!q.empty()) {
+        numberOfIterations++;
         sort(q.begin(),q.end(),funcSort);
         Node tempNode = q[q.size() - 1];;
         q.pop_back();
         if (tempNode.checkComplete()) {
-            tempNode.makeSolutionAStar();
+            cout << "Nodes remain to be expand - " << q.size() << endl;
+            tempNode.makeSolutionAStar(numberOfIterations);
             break;
         }
         for (int i = 0; i < 4; i++) {
@@ -82,7 +88,10 @@ int main()
         cin >> n;
         if (n == 1) {
             for (int i = 1; i < 100000; i++) {
-                if (IDS(test, i))break;
+                if (IDS(test, i)) {
+                    break;
+                }
+                nodesInMemory = 0;
             }
         }
         else {

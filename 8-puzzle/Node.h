@@ -60,11 +60,7 @@ struct Node {
 			}
 		}
 		AllExpandedNodes++;
-		ExpandedNodes++;
 	};
-	~Node() {
-		--ExpandedNodes;
-	}
 	bool isCorrect()
 	{
 		vector<int> tempVec;
@@ -90,10 +86,11 @@ struct Node {
 		}
 		return flag;
 	}
-	void makeSolution() {
+	void makeSolution(int numberOfIteratins, int nodesInMemory) {
 		cout << "The task is completed, the depth is:" << Depth << endl;
-		cout << "The number of expanded nodes in memory: " << ExpandedNodes  << endl;
+		cout << "The number of iterations: " << numberOfIteratins << endl;
 		cout << "The number of all expanded nodes: " << AllExpandedNodes << endl;
+		cout << "The number of nodes in memory: " << nodesInMemory << endl;
 		Node tempNode = *this;
 		while (tempNode.parentNode != nullptr) {
 			print(tempNode.state);
@@ -102,12 +99,12 @@ struct Node {
 		}
 		print(tempNode.state);
 	}
-	void makeSolutionAStar() {
+	void makeSolutionAStar(int numberOfIterations) {
 		cout << "The task is completed" << endl << endl;
+		cout << "Iterations: " << numberOfIterations << endl;
 		print(state);
 		cout << endl;
 		cout << "The depth is: " << Depth << endl;
-		cout << "The number of expanded nodes in memory: " << ExpandedNodes  << endl;
 		cout << "The number of all expanded nodes: " << AllExpandedNodes << endl;
 	}
 	Node left() {
