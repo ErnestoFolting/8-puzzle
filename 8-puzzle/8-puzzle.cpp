@@ -4,11 +4,13 @@
 #include <list>
 #include <algorithm>
 #include "Node.h"
+#include <time.h>
 #include "fileReader.h"
 using namespace std;
 int Node::AllExpandedNodes = 0;
 int Node::ExpandedNodes = 0;
 int numberOfIterations = 0;
+clock_t start = clock();
 int nodesInMemory = 0;
 
 bool funcSort(const Node& a, const Node& b) {
@@ -17,6 +19,10 @@ bool funcSort(const Node& a, const Node& b) {
 bool IDS(Node startNode, int limit) {
     numberOfIterations++;
     nodesInMemory++;
+    if (numberOfIterations >= 716340 || ((int(clock()) - start) / 1000 / 60) >= 30) {
+        cout << "Error, overflow." << endl;
+        exit(1);
+    }
     if (startNode.checkComplete()) {
         startNode.makeSolution(numberOfIterations, nodesInMemory);
         return true;
@@ -49,11 +55,15 @@ void AStar(Node startNode) {
     q.push_back(startNode);
     while (!q.empty()) {
         numberOfIterations++;
+        if (q.size() >= 716340 || ((int(clock()) - start)/1000/60) >= 30) {
+            cout << "Error, overflow." << endl;
+            exit(1);
+        }
         sort(q.begin(),q.end(),funcSort);
         Node tempNode = q[q.size() - 1];;
         q.pop_back();
         if (tempNode.checkComplete()) {
-            cout << "Nodes remain to be expand - " << q.size() << endl;
+            cout << "Nodes in queue remain to be expand - " << q.size() << endl;
             tempNode.makeSolutionAStar(numberOfIterations);
             break;
         }
@@ -82,7 +92,7 @@ int main()
     vector<vector<int>> testMatr = readFile();
     print(testMatr);
     Node test(testMatr);
-    if (test.isCorrect()) {
+    if (!test.isCorrect()) {
         cout << "What method do you want to use?   1 - IDS   2 - A*" << endl;
         int n;
         cin >> n;

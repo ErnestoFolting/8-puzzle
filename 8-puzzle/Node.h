@@ -100,10 +100,10 @@ struct Node {
 		print(tempNode.state);
 	}
 	void makeSolutionAStar(int numberOfIterations) {
-		cout << "The task is completed" << endl << endl;
-		cout << "Iterations: " << numberOfIterations << endl;
 		print(state);
 		cout << endl;
+		cout << "The task is completed" << endl << endl;
+		cout << "Iterations: " << numberOfIterations << endl;
 		cout << "The depth is: " << Depth << endl;
 		cout << "The number of all expanded nodes: " << AllExpandedNodes << endl;
 	}
